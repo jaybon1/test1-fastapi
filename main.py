@@ -19,6 +19,10 @@ class Cat(BaseModel):
     id: int = 0
 
 
+class RequestInsertRegionDTO(BaseModel):
+    regionName: str
+
+
 app = FastAPI()
 
 
@@ -90,3 +94,32 @@ async def fetch_data():
     await database.disconnect()
 
     return results
+
+
+@app.post("/insert")
+async def fetch_data(requestInsertRegionDTO: RequestInsertRegionDTO):
+
+    await database.connect()
+
+    try:
+        query = f"""INSERT INTO REGIONS
+                      (region_name)
+                    values
+                      ('{requestInsertRegionDTO.regionName}')"""
+
+        # query = f"""INSERT INTO COUNTRIES
+        #         VALUES(1)"""
+        results = await database.execute(query)
+        return results
+    except:
+        return "에러발생"
+    finally:
+        await database.disconnect()
+
+    responseDTO = jsonable_encoder(ResponseDTO(
+        code=0,
+        message="성공",
+        data=requestInsertRegionDTO
+    ))
+
+    return JSONResponse(content=responseDTO)
