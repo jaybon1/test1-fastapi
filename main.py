@@ -97,9 +97,11 @@ async def fetch_data():
 
 
 @app.post("/insert")
-async def fetch_data(requestInsertRegionDTO: RequestInsertRegionDTO):
+async def insert_data(requestInsertRegionDTO: RequestInsertRegionDTO):
 
     await database.connect()
+
+    error = False
 
     try:
         query = f"""INSERT INTO REGIONS
@@ -114,4 +116,15 @@ async def fetch_data(requestInsertRegionDTO: RequestInsertRegionDTO):
 
     if (error):
         return "에러발생"
+
     return results
+
+
+@app.put("/update/{id}")
+async def update_data(id: int, ):  # RequestInsertRegionDTO 추가하기
+    pass
+
+
+@app.delete("/delete/{id}")
+async def update_data(id: int):
+    pass
