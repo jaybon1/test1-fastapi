@@ -1,8 +1,10 @@
+from databases import Database
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.encoders import jsonable_encoder
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
+import sqlite3
 
 # https://apis.data.go.kr/6260000/AttractionService/getAttractionKr?serviceKey=L4O6Jd5locofQV0Sa674EwMQ4GyHi380DNlzkWVMQLw8O2LvzNMvBKe1RxTj4jssgmQKPrDvinJFtSOIs9KmbA%3D%3D&pageNo=1&numOfRows=10&resultType=json
 
@@ -74,3 +76,29 @@ async def check_file(
         "uploadFileName": uploadFile.filename,
         "uploadFileContentType": uploadFile.content_type,
     }
+
+# database = Database("sqlite:///C:\programming\sqlite\hr.db")
+
+
+# @app.on_event("startup")
+# async def database_connect():
+#     await database.connect()
+
+
+# @app.on_event("shutdown")
+# async def database_disconnect():
+#     await database.disconnect()
+
+
+@app.get("/findall")
+async def fetch_data():
+
+    database = Database("sqlite:///C:\programming\sqlite\hr")
+    await database.connect()
+
+    query = "SELECT * FROM REGIONS"
+    results = await database.fetch_all(query=query)
+
+    await database.disconnect()
+
+    return results
