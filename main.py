@@ -23,6 +23,10 @@ class RequestInsertRegionDTO(BaseModel):
     regionName: str
 
 
+class RequestUpdateRegionDTO(BaseModel):
+    regionName: str
+
+
 app = FastAPI()
 
 
@@ -121,10 +125,45 @@ async def insert_data(requestInsertRegionDTO: RequestInsertRegionDTO):
 
 
 @app.put("/update/{id}")
-async def update_data(id: int, ):  # RequestUpdateRegionDTO 추가하기
-    pass
+async def update_data(id: int, requestUpdateRegionDTO: RequestUpdateRegionDTO):
+
+    await database.connect()
+
+    error = False
+
+    try:
+        query = f"""UPDATE REGIONS
+                    SET REGION_NAME='{requestUpdateRegionDTO.regionName}'
+                    WHERE REGION_ID={id}"""
+        results = await database.execute(query)
+    except:
+        error = True
+    finally:
+        await database.disconnect()
+
+    if (error):
+        return "에러발생"
+
+    return results
 
 
 @app.delete("/delete/{id}")
 async def update_data(id: int):
-    pass
+
+    await database.connect()
+
+    error = False
+
+    try:
+        query = f"""DELETE FROM REGIONS
+                    WHERE REGION_ID={id}"""
+        results = await database.execute(query)
+    except:
+        error = True
+    finally:
+        await database.disconnect()
+
+    if (error):
+        return "에러발생"
+
+    return results
