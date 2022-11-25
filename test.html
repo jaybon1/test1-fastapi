@@ -21,6 +21,14 @@
         return;
       }
 
+      if (
+        fileElement.files[0].type != "image/jpeg" &&
+        fileElement.files[0].type != "image/png"
+      ) {
+        alert(`jpg 또는 png 파일을 선택해주세요.`);
+        return;
+      }
+
       const formData = new FormData();
       formData.set("token", "토크은");
       formData.set("uploadFile", fileElement.files[0]);
