@@ -121,7 +121,7 @@ async def insert_data(requestInsertRegionDTO: RequestInsertRegionDTO):
 
 
 @app.put("/update/{id}")
-async def update_data(id: int, ):  # RequestInsertRegionDTO 추가하기
+async def update_data(id: int, ):  # RequestUpdateRegionDTO 추가하기
     pass
 
 
