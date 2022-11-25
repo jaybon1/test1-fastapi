@@ -1,3 +1,4 @@
+import base64
 from databases import Database
 from fastapi import FastAPI, File, Form, HTTPException, UploadFile
 from fastapi.encoders import jsonable_encoder
@@ -167,3 +168,14 @@ async def update_data(id: int):
         return "에러발생"
 
     return results
+
+
+@app.post("/files-base64/")
+async def bas64_file(
+    uploadFile: str = Form(), token: str = Form()
+):
+    # print(uploadFile)
+    return {
+        "token": token,
+        "uploadFile": uploadFile
+    }
