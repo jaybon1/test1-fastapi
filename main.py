@@ -106,20 +106,12 @@ async def fetch_data(requestInsertRegionDTO: RequestInsertRegionDTO):
                       (region_name)
                     values
                       ('{requestInsertRegionDTO.regionName}')"""
-
-        # query = f"""INSERT INTO COUNTRIES
-        #         VALUES(1)"""
         results = await database.execute(query)
-        return results
     except:
-        return "에러발생"
+        error = True
     finally:
         await database.disconnect()
 
-    responseDTO = jsonable_encoder(ResponseDTO(
-        code=0,
-        message="성공",
-        data=requestInsertRegionDTO
-    ))
-
-    return JSONResponse(content=responseDTO)
+    if (error):
+        return "에러발생"
+    return results
