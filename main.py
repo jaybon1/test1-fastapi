@@ -77,18 +77,6 @@ async def check_file(
         "uploadFileContentType": uploadFile.content_type,
     }
 
-# database = Database("sqlite:///C:\programming\sqlite\hr.db")
-
-
-# @app.on_event("startup")
-# async def database_connect():
-#     await database.connect()
-
-
-# @app.on_event("shutdown")
-# async def database_disconnect():
-#     await database.disconnect()
-
 
 @app.get("/findall")
 async def fetch_data():
